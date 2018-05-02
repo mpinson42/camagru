@@ -1,4 +1,5 @@
 <?php
+session_start();
 header('Content-Type: application/json');
 $success = false;
 $data = array();
@@ -8,6 +9,7 @@ function reponse_json($success, $data, $msgErreur=NULL) {
 	$array['success'] = $success;
 	$array['msg'] = $msgErreur;
 	$array['result'] = $data;
+	$array['loged'] = $_SESSION['logged_on_user'];
 
 	echo json_encode($array);
 }

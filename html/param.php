@@ -19,20 +19,24 @@
 			
 			
 			reset votre mots de passe
-			<form method="post" action="../back/new_passwd.php">
-				Nouveau mot de passe: <input type="text" name="passwd">
-				ancien mot de passe: <input type="text" name="oldpasswd">
-				<input type="submit" name="submit" value="OK"><p>
+			<form >
+				Nouveau mot de passe: <input type="text" name="passwd" class="param-new-pass">
+				ancien mot de passe: <input type="text" name="oldpasswd" class=param-mdp>
+				<input type="button" name="submit" value="OK" class=param-btn-mdp>
 			</form>
 
 			<form method="post" action="../back/reset_email.php">
-				nouveau mail: <input type="text" name="email">
-				<input type="submit" name="submit" value="OK"><p>
+				nouveau mail: <input type="text" name="email" class="param-new-mail">
+				<input type="button" name="submit" value="OK" class="param-btn-mail">
 			</form>
 
 			<form method="post" action="../back/reset_login.php">
-				nouveau login: <input type="text" name="login">
-				<input type="submit" name="submit" value="OK"><p>
+				nouveau login: <input type="text" name="login" class="param-new-login">
+				<input type="button" name="submit" value="OK" class="param-btn-login">
+			</form>
+
+			<form class="param-checkbox">
+				
 			</form>
 			
 
@@ -40,4 +44,5 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript" src="../index.js"></script>
 </html>

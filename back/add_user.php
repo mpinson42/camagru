@@ -15,7 +15,7 @@ if(empty($_SESSION['token']) || empty($_GET['token']) ||  $_GET['token'] != $_SE
 if( !empty($_SESSION['login']) && !empty($_SESSION['passwd']) && !empty($_SESSION['email'])) {
 	//Si toutes les données sont saisie par le client
 	$passwd = hash('whirlpool', $_SESSION['passwd']);
-	$requete = $pdo->prepare("INSERT INTO `user` (`login`, `passwd`, `email`, `id`, `img_id`) VALUES ('".$_SESSION['login']."', '".$passwd."', '".$_SESSION['email']."', '".$_SESSION['id']."', '');");
+	$requete = $pdo->prepare("INSERT INTO `user` (`login`, `passwd`, `email`, `id`, `img_id`, `mail`) VALUES ('".$_SESSION['login']."', '".$passwd."', '".$_SESSION['email']."', '".$_SESSION['id']."', '', 1);");
 	$requete->bindParam(':login', $_SESSION['login']);
 	$requete->bindParam(':passwd', $passwd);
 	$requete->bindParam(':email', $_SESSION['email']);

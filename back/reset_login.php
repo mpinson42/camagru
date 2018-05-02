@@ -3,6 +3,7 @@
 	include('template.php');
 
 	$requete = $pdo->prepare("UPDATE user SET login='".$_POST['login']."' WHERE login='".$_SESSION['logged_on_user']."'");
+	$_SESSION['logged_on_user'] = $_POST['login'];
 	if( $requete->execute() ){
 		$resultats = $requete->fetchAll();
 		//var_dump($resultats);
@@ -12,7 +13,6 @@
 		$data['user'] = $resultats;
 	} else {
 		$msg = "Une erreur s'est produite";
-		reponse_json($success, $data, $msg);
-		exit();
 	}
+	reponse_json($success, $data, $msg);
 ?>

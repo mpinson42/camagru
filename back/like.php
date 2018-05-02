@@ -1,8 +1,8 @@
 <?php
 	//session_start();
 	include('template.php');
-
-	$requete = $pdo->prepare("UPDATE user SET email='".$_POST['email']."' WHERE login='".$_SESSION['logged_on_user']."'");
+	
+	$requete = $pdo->prepare("UPDATE img SET likedby='".$_POST['str']."' WHERE id='".$_POST['id']."'");
 	if( $requete->execute() ){
 		$resultats = $requete->fetchAll();
 		//var_dump($resultats);
