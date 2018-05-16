@@ -13,6 +13,7 @@ if( $requete->execute() ){
 	$success = true;
 	$data['nombre'] = count($resultats);
 	$data['img'] = $resultats;
+	$msg = "Une erreur s'est produite";
 } else {
 	$msg = "Une erreur s'est produite";
 }

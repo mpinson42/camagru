@@ -11,8 +11,19 @@
 	position: relative;
 }
 
+.content_montage {
+	position: relative;
+}
+
 .corpus {
-	
+	width: 80vw;
+	min-width: 1180px;
+	min-height: 70vh;
+	background-color:#daf1f1;
+	margin-top: 10px;
+	border-radius: 20px;
+	box-shadow: 10px 5px 5px grey;
+	overflow: auto;
 }
 
 .comment {
@@ -149,4 +160,14 @@ img {
 
 .supp {
 	color: red;
+}
+
+.img-photo {
+	position: absolute;
+    top: 30px;
+    left: 358px;
+	width: 500px;
+    height: 350px;
+	background-color: black;
+
 }

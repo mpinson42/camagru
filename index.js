@@ -11,6 +11,7 @@ var page = 0;
 var name_user;
 var full_user;
 var user;
+var comment_by;
 
 function filtre_undefind(t) {
 	tab = [];
@@ -67,7 +68,7 @@ function bind_article() {
 
 			html += "</div>"
 
-			var comment_by = JSON.parse( img['commentby'])
+			comment_by = JSON.parse( img['commentby'])
 
 
 			for (var i = 0; i < comment_by['comments'].length; i++) {
@@ -103,7 +104,7 @@ function bind_article() {
 				tab = [];
 				tab['str'] = str
 				tab['id'] = img.id
-				call_add_comment("http://localhost/camagru/back/add_comment.php", tab, name_user, document.getElementsByClassName('input-comment')[0].value)
+				call_add_comment("http://localhost:8080/back/add_comment.php", tab, name_user, document.getElementsByClassName('input-comment')[0].value)
 			})
 		
 
@@ -135,7 +136,7 @@ function bind_article() {
 						var tab = [];
 						tab['id'] = img.id
 						tab['str'] = JSON.stringify(liked_by)
-						call_like("http://localhost/camagru/back/like.php", tab)
+						call_like("http://localhost:8080/back/like.php", tab)
 						like == 1 ? like = 0 : like = 1;
 
 				})
@@ -202,6 +203,21 @@ function call_add_comment(url, tab, login, comment) {
 
 				document.getElementsByClassName('corpus')[0].innerHTML += html;
 
+
+			if(document.getElementsByClassName('input-button')[0])
+			document.getElementsByClassName('input-button')[0].addEventListener("click", function( event ) {
+				var tab = {};
+				tab['login'] = name_user;
+				tab['commante'] = document.getElementsByClassName('input-comment')[0].value
+
+				comment_by['comments'].push(tab);
+				str = JSON.stringify(comment_by['comments'])
+				str = "{" + '"comments"' + ":" + str + "}"
+				tab = [];
+				tab['str'] = str
+				tab['id'] = img.id
+				call_add_comment("http://localhost:8080/back/add_comment.php", tab, name_user, document.getElementsByClassName('input-comment')[0].value)
+			})
 
 	        //document.getElementsByClassName('corpus')[0].innerHTML = "";
 	    }
@@ -296,7 +312,7 @@ function call_users(tab, url) {
 
 	        tab = [];
 	        tab['login'] = name_user;
-	        call_user(tab, "http://localhost/camagru/back/aff_user.php");
+	        call_user(tab, "http://localhost:8080/back/aff_user.php");
 
 	        //document.getElementsByClassName('corpus')[0].innerHTML = "";
 	    }
@@ -353,7 +369,7 @@ function call_user(tab, url) {
 	        	document.getElementsByClassName('param_ch')[0].addEventListener("change", function( event ) {
 	        		var tab = [];
 	        		tab['check'] = user[0].mail
-	        		call_check_mail("http://localhost/camagru/back/check_mail.php", tab)
+	        		call_check_mail("http://localhost:8080/back/check_mail.php", tab)
 	        	})
 	        }
 	        
@@ -370,17 +386,16 @@ function get_img() {
 
 	tab['value'] = elem[0].value
 	
-	call_post(tab, "http://localhost/camagru/back/test.php");
+	call_post(tab, "http://localhost:8080/back/test.php");
 }
 
 var elem = document.getElementsByClassName('corpus');
 
 
-	var img = call_img([], "http://localhost/camagru/back/get_img.php");
-
+	var img = call_img([], "http://localhost:8080/back/get_img.php");
 	var tab = [];
 	//tab['login'] = name_user; 
-	call_users(tab, "http://localhost/camagru/back/aff_user.php");
+	call_users(tab, "http://localhost:8080/back/aff_user.php");
 	
 
 
@@ -452,14 +467,14 @@ setTimeout(function() {
 			var tab = [];
 			tab['passwd'] = document.getElementsByClassName('param-new-pass')[0].value
 			tab['oldpasswd'] = document.getElementsByClassName('param-mdp')[0].value
-			call_newpass("http://localhost/camagru/back/new_passwd.php", tab);
+			call_newpass("http://localhost:8080/back/new_passwd.php", tab);
 		})
 
 	if(document.getElementsByClassName('param-btn-mail')[0])
 		document.getElementsByClassName('param-btn-mail')[0].addEventListener("click", function( event ) {
 			var tab = [];
 			tab['email'] = document.getElementsByClassName('param-new-mail')[0].value
-			call_newemail("http://localhost/camagru/back/reset_email.php", tab);
+			call_newemail("http://localhost:8080/back/reset_email.php", tab);
 		})
 
 
@@ -467,9 +482,77 @@ setTimeout(function() {
 		document.getElementsByClassName('param-btn-login')[0].addEventListener("click", function( event ) {
 			var tab = [];
 			tab['login'] = document.getElementsByClassName('param-new-login')[0].value
-			call_newlogin("http://localhost/camagru/back/reset_login.php", tab);
+			call_newlogin("http://localhost:8080/back/reset_login.php", tab);
 		})
-
-
+	if(document.getElementById('video'))
+	{
+		video();
+	}
 
 },100);
+
+
+function video() {
+
+  var streaming = false,
+      video        = document.querySelector('#video'),
+      cover        = document.querySelector('#cover'),
+      canvas       = document.querySelector('#canvas'),
+      photo        = document.querySelector('#photo'),
+      startbutton  = document.querySelector('#startbutton'),
+      width = 500,
+      height = 0;
+
+  navigator.getMedia = ( navigator.getUserMedia ||
+                         navigator.webkitGetUserMedia ||
+                         navigator.mozGetUserMedia ||
+                         navigator.msGetUserMedia);
+
+  navigator.getMedia(
+    {
+      video: true,
+      audio: false
+    },
+    function(stream) {
+      if (navigator.mozGetUserMedia) {
+        video.mozSrcObject = stream;
+      } else {
+        var vendorURL = window.URL || window.webkitURL;
+        video.src = vendorURL.createObjectURL(stream);
+      }
+      video.play();
+    },
+    function(err) {
+      console.log("An error occured! " + err);
+    }
+  );
+
+  video.addEventListener('canplay', function(ev){
+    if (!streaming) {
+      height = video.videoHeight / (video.videoWidth/width);
+      video.setAttribute('width', width);
+      video.setAttribute('height', height);
+      canvas.setAttribute('width', width);
+      canvas.setAttribute('height', height);
+      streaming = true;
+    }
+  }, false);
+
+  function takepicture() {
+    canvas.width = width;
+    canvas.height = height;
+    canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+    var data = canvas.toDataURL('image/png');
+    console.log(data);
+    photo.setAttribute('src', data);
+    //sand data in hidden input
+    //explod  -> ;
+    //decode base 64
+    // write img;
+  }
+
+  startbutton.addEventListener('click', function(ev){
+      takepicture();
+    ev.preventDefault();
+  }, false);
+}

@@ -9,8 +9,8 @@
   	<meta name="description" content="e-comerce">
   	<meta name="keywords" content="HTML,CSS,php">
   	<meta name="author" content="mpinson">
-	<link rel="stylesheet" type="text/css" href="html/style.css">
-	<script type="text/javascript" src="index.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="../index.js"></script>
 	<title>magixisland.com</title>
 </head>
 <body>
@@ -25,7 +25,7 @@
 		<?php
 
 			session_start();
-			if(!$_SESSION['logged_on_user'])
+			if(!empty($_SESSION['logged_on_user']))
 			{
 				echo "<div class=connection>\n<a href='html/login.php'>login</a>\n</div>\n<div class='creat'>\n<a href='html/creat.php'>creat acount</a>\n</div>\n";
 			}
@@ -35,14 +35,15 @@
 		?>
 		</div>
 	</div>
-	<div class="content">
-		<div class="corpus2">
-			<div class="oui">
-				<p class=flech_gauche><</p>
-				<p class=flech_droit>></p>
-			</div>
-			<div class=corpus>
-				
+	<div class="content_montage">
+		
+			<div class=corpus2>
+				<div class="img-photo">
+					<video id="video"></video>
+					<button id="startbutton">Prendre une photo</button>
+					<canvas id="canvas"></canvas>
+					
+				</div>
 			</div>
 
 
@@ -57,7 +58,7 @@
 		  fin de remplissage-->
 
 
-		</div>
+		
 		<div class="choix">
 			<h1>categorie</h1>
 			<hr>
