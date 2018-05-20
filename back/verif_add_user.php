@@ -41,7 +41,7 @@
 	$_SESSION['connect'] = 0;
 	
 
-	//mail($_POST['email'],"connection","http://localhost/camagru/back/add_user.php?token=".$_SESSION['token']);
-	echo "http://localhost/camagru/back/add_user.php?token=".$_SESSION['token'];
+	mail($_POST['email'],"connection","http://localhost:8080/back/add_user.php?token=".$_SESSION['token']);
+	//echo "http://localhost/camagru/back/add_user.php?token=".$_SESSION['token'];
 
 ?>

@@ -25,7 +25,7 @@
 		<?php
 
 			session_start();
-			if(!$_SESSION['logged_on_user'])
+			if(empty($_SESSION['logged_on_user']))
 			{
 				echo "<div class=connection>\n<a href='html/login.php'>login</a>\n</div>\n<div class='creat'>\n<a href='html/creat.php'>creat acount</a>\n</div>\n";
 			}

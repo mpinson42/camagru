@@ -6,7 +6,6 @@ if(empty($_SESSION['token']) || empty($_GET['token']) ||  $_GET['token'] != $_SE
 {
 	echo $_GET['token'] . ' ';
 	echo $_SESSION['token'] . " ";
-	echo 
 	exit();
 }
 

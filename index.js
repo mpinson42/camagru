@@ -168,7 +168,8 @@ function call_like(url, tab)
 	return(http.responseText);
 }
 
-function call_add_comment(url, tab, login, comment) {
+function call_save_img(url, tab)
+{
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
@@ -179,6 +180,27 @@ function call_add_comment(url, tab, login, comment) {
 	http.onreadystatechange = function() {//Call a function when the state changes.
 	    if(http.readyState == 4 && http.status == 200) {
 	        //return(http.responseText);
+	        //var rep = JSON.parse(http.responseText);
+	        console.log(http.responseText)
+	       
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
+function call_add_comment(url, tab, login, comment) {
+	var http = new XMLHttpRequest();
+	var params = form_param(tab);
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        console.log(http.responseText);
+	        return;
 	        var rep = JSON.parse(http.responseText);
 	        
 	        document.getElementsByClassName('form-comment')[0].remove();
@@ -332,7 +354,7 @@ function call_check_mail(url, tab) {
 	http.onreadystatechange = function() {//Call a function when the state changes.
 	    if(http.readyState == 4 && http.status == 200) {
 	        //return(http.responseText);
-	        var img = JSON.parse(http.responseText);
+	        var img = http.responseText;
 	       	user[0].mail == "1" ? user[0].mail = "0" : user[0].mail = "1";
 
 	        //document.getElementsByClassName('corpus')[0].innerHTML = "";
@@ -459,6 +481,27 @@ function call_newlogin(url, tab) {
 }
 
 
+function call_btn_uplod_img(url, tab) {
+	var http = new XMLHttpRequest();
+	var params = tab;
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //return(http.responseText);
+	        console.log(http.responseText)
+	       //var img = JSON.parse(http.responseText);
+	        
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
+var img_select = 0;
 
 
 setTimeout(function() {
@@ -484,6 +527,35 @@ setTimeout(function() {
 			tab['login'] = document.getElementsByClassName('param-new-login')[0].value
 			call_newlogin("http://localhost:8080/back/reset_login.php", tab);
 		})
+
+	if(document.getElementsByClassName('btn_uplod')[0])
+		document.getElementsByClassName('btn_uplod')[0].addEventListener("click", function( event ) {
+			var tab = [];
+			tab = new FormData("img1", document.getElementsByClassName('file_uplod')[0].files)
+			call_btn_uplod_img("http://localhost:8080/back/upload_img.php", tab)
+		})
+
+	if(document.getElementsByClassName('img1')[0])
+		document.getElementsByClassName('img1')[0].addEventListener("click", function( event ) {
+			document.getElementsByClassName('img2')[0].checked = false;
+			document.getElementsByClassName('img3')[0].checked = false;
+			img_select = 1;
+		})
+
+	if(document.getElementsByClassName('img2')[0])
+		document.getElementsByClassName('img2')[0].addEventListener("click", function( event ) {
+			document.getElementsByClassName('img1')[0].checked = false;
+			document.getElementsByClassName('img3')[0].checked = false;
+			img_select = 2;
+		})
+
+	if(document.getElementsByClassName('img3')[0])
+		document.getElementsByClassName('img3')[0].addEventListener("click", function( event ) {
+			document.getElementsByClassName('img1')[0].checked = false;
+			document.getElementsByClassName('img2')[0].checked = false;
+			img_select = 3;
+		})
+
 	if(document.getElementById('video'))
 	{
 		video();
@@ -543,12 +615,12 @@ function video() {
     canvas.height = height;
     canvas.getContext('2d').drawImage(video, 0, 0, width, height);
     var data = canvas.toDataURL('image/png');
-    console.log(data);
-    photo.setAttribute('src', data);
-    //sand data in hidden input
-    //explod  -> ;
-    //decode base 64
-    // write img;
+    //photo.setAttribute('src', data);
+
+    var tab = [];
+    tab['img1'] = data;
+    tab['checkbox'] = img_select;
+    call_save_img("http://localhost:8080/back/save_img.php", tab);
   }
 
   startbutton.addEventListener('click', function(ev){

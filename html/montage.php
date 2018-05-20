@@ -25,12 +25,13 @@
 		<?php
 
 			session_start();
-			if(!empty($_SESSION['logged_on_user']))
+			if(empty($_SESSION['logged_on_user']))
 			{
-				echo "<div class=connection>\n<a href='html/login.php'>login</a>\n</div>\n<div class='creat'>\n<a href='html/creat.php'>creat acount</a>\n</div>\n";
+				echo "<div class=connection>\n<a href='login.php'>login</a>\n</div>\n<div class='creat'>\n<a href='creat.php'>creat acount</a>\n</div>\n";
 			}
 			else {
-				echo "<div class='engine'>\n<a href='html/param.php'><i class='fa fa-cog'></i></i></a>\n</div>\n</i></a>\n<div class='creat'>\n<a href='html/logout.php'>logout</a>\n</div>\n";
+				echo $_SESSION['logged_on_user'];
+				echo "<div class='engine'>\n<a href='param.php'><i class='fa fa-cog'></i></i></a>\n</div>\n</i></a>\n<div class='creat'>\n<a href='logout.php'>logout</a>\n</div>\n";
 			}
 		?>
 		</div>
@@ -38,12 +39,26 @@
 	<div class="content_montage">
 		
 			<div class=corpus2>
+				<form method="post" action="../back/upload_img.php" enctype="multipart/form-data">
+					<div class="img_select">
+						<img src="../img/cadre.png">
+						<input type="checkbox" class="img[] img1" value="1" name="checkbox">
+						<img src="../img/coeur.png">
+						<input type="checkbox" class="img[] img2" value="2" name="checkbox">
+						<img src="../img/Pizza.png">
+						<input type="checkbox" class="img[] img3" value="3" name="checkbox">
+					</div>
 				<div class="img-photo">
 					<video id="video"></video>
 					<button id="startbutton">Prendre une photo</button>
+					
+							<input name="img1"  type="file">
+							<input value="upload"  type="submit">
+					
 					<canvas id="canvas"></canvas>
 					
 				</div>
+				</form>
 			</div>
 
 

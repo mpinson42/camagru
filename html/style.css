@@ -1,3 +1,16 @@
+.img_select {
+	width: 250px;
+    height: 500px;
+	margin-left: 50px;
+    margin-top: 25px;
+    margin-bottom: 50px;
+}
+
+.img_select img {
+	width: 250px;
+	    height: 157px;
+}
+
 .top {
 	text-align: center;
 	background-color: #daf1f1;
