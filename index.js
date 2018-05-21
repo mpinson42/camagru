@@ -51,7 +51,9 @@ function bind_article() {
 				}
 			} 
 			var html = `<div class=page_produit>
-							<img src='img/`+img['path']+`' class='img_produit'><br>`
+							<img src='http://localhost:8080/img/`+img['path']+`' class='img_produit'><br>`
+
+
 			
 			if(name_user)
 			{
@@ -69,14 +71,13 @@ function bind_article() {
 				var like = 0;
 				if(is_enter == 0)
 				{
-					html += "like :<input type='checkbox' id='coding' name='interest' class=ckeck_like>";
+					html += `like :<input type='checkbox' id='coding' name='interest' class=ckeck_like> `;
 				}
 				else
 				{
-					html+="like :<input type='checkbox' id='coding' name='interest' checked  class='ckeck_like'>";
+					html+=`like :<input type='checkbox' id='coding' name='interest' checked  class='ckeck_like'>` 
 					like = 1;
 				}
-
 				if(user[0].id == img['creat_by'])
 				{
 					console.log('ok')
@@ -84,6 +85,8 @@ function bind_article() {
 				}
 
 			}
+			html += `partage : <img src="https://www.techrevolutions.fr/wp-content/plugins/social-media-widget/images/default/32/facebook.png" alt="Facebook share" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=`+encodeURIComponent(`http://www.localhost:8080/img/` + img['path']) + `', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');">`
+
 
 			html += "</div>"
 
@@ -115,6 +118,10 @@ function bind_article() {
 				tab['img_id'] = img['id']
 				call_del_img("http://localhost:8080/back/del_img.php", tab)
 			})
+
+
+
+
 
 			if(document.getElementsByClassName('input-button')[0])
 			document.getElementsByClassName('input-button')[0].addEventListener("click", function( event ) {
