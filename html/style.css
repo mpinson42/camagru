@@ -1,3 +1,18 @@
+.img_preview{
+	    width: 500px;
+    height: 375px;
+    z-index: 42;
+    position: absolute;
+}
+
+.display_none{
+	display: none;
+}
+
+.display_block{
+	display: block;
+}
+
 .img_select {
 	width: 250px;
     height: 500px;
@@ -8,7 +23,7 @@
 
 .img_select img {
 	width: 250px;
-	    height: 157px;
+	height: 157px;
 }
 
 .top {
@@ -29,8 +44,8 @@
 }
 
 .corpus {
-	width: 80vw;
-	min-width: 1180px;
+	width: 99vw;
+	
 	min-height: 70vh;
 	background-color:#daf1f1;
 	margin-top: 10px;
@@ -44,8 +59,8 @@
 }
 
 .corpus2 {
-	width: 80vw;
-	min-width: 1180px;
+	width: 99vw;
+	
 	min-height: 70vh;
 	background-color:#daf1f1;
 	margin-top: 10px;
@@ -118,7 +133,7 @@ h1 {
 	text-align: center;
 }
 
-img {
+.article img {
 	width: 100%;
 	height: 80%
 }

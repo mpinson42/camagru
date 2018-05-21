@@ -3,7 +3,13 @@
 	include('token.php');
 
 
-
+	if(empty($_POST['img1']) || empty($_SESSION['logged_on_user']) || empty($_POST['checkbox']))
+	{
+		$msg = "param null";
+		$data = [];
+		reponse_json($success, $data, $msg);
+		return;
+	}
 
 
 

@@ -1,7 +1,14 @@
 <?php
-	session_start();
 	include('template.php');
 	include('token.php');
+
+	if(empty($_POST['login']) || empty($_POST['passwd']) || empty($_POST['email']))
+	{
+		$msg = "param null";
+		$data = [];
+		reponse_json($success, $data, $msg);
+		return;
+	}
 
 	$requete = $pdo->prepare("SELECT * FROM `user`");
 	if( $requete->execute() ){
@@ -42,6 +49,5 @@
 	
 
 	mail($_POST['email'],"connection","http://localhost:8080/back/add_user.php?token=".$_SESSION['token']);
-	//echo "http://localhost/camagru/back/add_user.php?token=".$_SESSION['token'];
 
 ?>

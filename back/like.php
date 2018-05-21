@@ -1,6 +1,13 @@
 <?php
-	//session_start();
 	include('template.php');
+
+	if(empty($_POST['str']) || (empty($_POST['id']) && $_POST['id'] != 0) )
+	{
+		$msg = "param null";
+		//$data = [];
+		reponse_json($success, $data, $msg);
+		return;
+	}
 	
 	$requete = $pdo->prepare("UPDATE img SET likedby='".$_POST['str']."' WHERE id='".$_POST['id']."'");
 	if( $requete->execute() ){

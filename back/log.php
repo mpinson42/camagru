@@ -1,6 +1,15 @@
 <?php
-	session_start();
 	include('template.php');
+
+	if(empty($_POST['login']))
+	{
+		$msg = "param null";
+		$data = [];
+		reponse_json($success, $data, $msg);
+		return;
+	}
+
+	
 	$requete = $pdo->prepare("SELECT * FROM `user` WHERE `login` LIKE '".$_POST['login']."'");
 	$requete->bindParam(':login', $_POST['login']);
 
@@ -11,17 +20,21 @@
 		
 		$success = true;
 		$data['nombre'] = count($resultats);
-		$data['user'] = $resultats;
+		if(empty($resultats[0]))
+		{
+			$msg = "error";
+			reponse_json($success, $data, $msg);
+			exit();
+		}
+		$data = $resultats[0];
 	} else {
 		$msg = "Une erreur s'est produite";
 		reponse_json($success, $data, $msg);
 		exit();
 
 	}
-
 	if($resultats[0]['passwd'] != hash("whirlpool", $_POST['passwd']))
 	{
-		print $resultats;
 		$msg = "error";
 		$_SESSION['logged_on_user'] = "";
 	}
@@ -29,7 +42,6 @@
 	{
 		$msg = "login";
 		$_SESSION['logged_on_user'] = $_POST['login'];
-		echo $_POST['login'];
 	}
 
 	reponse_json($success, $data, $msg);

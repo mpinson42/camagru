@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
 	<meta charset="UTF-8">
   	<meta name="description" content="e-comerce">
   	<meta name="keywords" content="HTML,CSS,php">
@@ -13,7 +12,7 @@
 </head>
 <body>
 	<div class="top_param">
-		<a href="../index.php"><h1>magixisland.com</h1></a>
+		<a href="http://localhost:8080/index.php"><h1>magixisland.com</h1></a>
 
 		<div class=contenu_param>
 			

@@ -2,6 +2,14 @@
 	include('template.php');
 	include('token.php');
 
+	if(empty($_FILES['img1']) || empty($_SESSION['logged_on_user']) || empty($_POST['checkbox']))
+	{
+		$msg = "param null";
+		$data = [];
+		reponse_json($success, $data, $msg);
+		return;
+	}
+
 	function merge_img($img1, $img2) {
 		$verif = False;
 		while($verif == false)

@@ -1,7 +1,17 @@
 <?php
-	session_start();
 	include('template.php');
 	include('token.php');
+
+
+	if(empty($_POST['login']) || empty($_SESSION['logged_on_user']))
+	{
+		$msg = "param null";
+		$data = [];
+		reponse_json($success, $data, $msg);
+		return;
+	}
+
+	
 	$requete = $pdo->prepare("SELECT * FROM `user` WHERE `login` LIKE '".$_POST['login']."'");
 	$requete->bindParam(':nom', $_POST['login']);
 
@@ -12,7 +22,13 @@
 		
 		$success = true;
 		$data['nombre'] = count($resultats);
-		$data['user'] = $resultats;
+		if(empty($resultats[0]))
+		{
+			$msg = "Une erreur s'est produite";
+			reponse_json($success, $data, $msg);
+			exit();
+		}
+		$data = $resultats[0];
 	} else {
 		$msg = "Une erreur s'est produite";
 		reponse_json($success, $data, $msg);
@@ -21,10 +37,10 @@
 	}
 
 	$token = token(25);
-	//mail($_POST['email'],"connection","http://localhost/camagru/back/add_user.php?token=".$_SESSION['token']);
+	mail($data['email'],"new_mdp","your new mdp is ".$token);
 	echo $token;
 
-
+	$data = [];
 	$passwd = hash("whirlpool", $token);
 	$requete = $pdo->prepare("UPDATE user SET passwd='".$passwd."' WHERE login='".$_POST['login']."'");
 	if( $requete->execute() ){
@@ -39,6 +55,7 @@
 		reponse_json($success, $data, $msg);
 		exit();
 	}
-
-	//reponse_json($success, $data, $msg);
+	$data['token'] = $token;
+	$msg = $token;
+	reponse_json($success, $data, $msg);
 ?>

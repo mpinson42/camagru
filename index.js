@@ -13,6 +13,19 @@ var full_user;
 var user;
 var comment_by;
 
+function escapeHtml(text) {
+  var map = {
+    '&': '',
+    ':': '',
+    '<': '',
+    '>': '',
+    '"': '',
+    "'": ''
+  };
+
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 function filtre_undefind(t) {
 	tab = [];
 
@@ -64,6 +77,12 @@ function bind_article() {
 					like = 1;
 				}
 
+				if(user[0].id == img['creat_by'])
+				{
+					console.log('ok')
+					html+="delete : <input type='button' name='' class='del_img'>"
+				}
+
 			}
 
 			html += "</div>"
@@ -74,7 +93,7 @@ function bind_article() {
 			for (var i = 0; i < comment_by['comments'].length; i++) {
 				html += `<div class=comment>
 				<h4>comment by : `+comment_by['comments'][i]['login']+`</h4>
-				<p>`+comment_by['comments'][i]['commante']+`</p>
+				<p>`+escapeHtml(comment_by['comments'][i]['commante'])+`</p>
 				<hr></div>`
 			}
 
@@ -90,13 +109,18 @@ function bind_article() {
 				</div>*/
 			document.getElementsByClassName('corpus')[0].innerHTML = html;
 
-			
+			if(document.getElementsByClassName('del_img')[0])
+			document.getElementsByClassName('del_img')[0].addEventListener("click", function( event ) {
+				var tab = [];
+				tab['img_id'] = img['id']
+				call_del_img("http://localhost:8080/back/del_img.php", tab)
+			})
 
 			if(document.getElementsByClassName('input-button')[0])
 			document.getElementsByClassName('input-button')[0].addEventListener("click", function( event ) {
 				var tab = {};
 				tab['login'] = name_user;
-				tab['commante'] = document.getElementsByClassName('input-comment')[0].value
+				tab['commante'] = escapeHtml(document.getElementsByClassName('input-comment')[0].value)
 
 				comment_by['comments'].push(tab);
 				str = JSON.stringify(comment_by['comments'])
@@ -144,7 +168,7 @@ function bind_article() {
 		});
 
 	}
-	//document.getElementsByClassName('corpus')[0].innerHTML = "";
+	
 }
 
 function call_like(url, tab)
@@ -193,6 +217,7 @@ function call_add_comment(url, tab, login, comment) {
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
+	comment = escapeHtml(comment);
 
 	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -200,9 +225,9 @@ function call_add_comment(url, tab, login, comment) {
 	http.onreadystatechange = function() {//Call a function when the state changes.
 	    if(http.readyState == 4 && http.status == 200) {
 	        console.log(http.responseText);
-	        return;
-	        var rep = JSON.parse(http.responseText);
 	        
+	        var rep = JSON.parse(http.responseText);
+	        document.location.href = "http://localhost:8080/index.php"
 	        document.getElementsByClassName('form-comment')[0].remove();
 
 	        
@@ -230,7 +255,7 @@ function call_add_comment(url, tab, login, comment) {
 			document.getElementsByClassName('input-button')[0].addEventListener("click", function( event ) {
 				var tab = {};
 				tab['login'] = name_user;
-				tab['commante'] = document.getElementsByClassName('input-comment')[0].value
+				tab['commante'] = escapeHtml(document.getElementsByClassName('input-comment')[0].value)
 
 				comment_by['comments'].push(tab);
 				str = JSON.stringify(comment_by['comments'])
@@ -241,7 +266,7 @@ function call_add_comment(url, tab, login, comment) {
 				call_add_comment("http://localhost:8080/back/add_comment.php", tab, name_user, document.getElementsByClassName('input-comment')[0].value)
 			})
 
-	        //document.getElementsByClassName('corpus')[0].innerHTML = "";
+	        
 	    }
 	}
 	http.send(params);
@@ -306,7 +331,27 @@ function call_img(tab, url) {
 				bind_article();
 			});
 			bind_article();
-	        //document.getElementsByClassName('corpus')[0].innerHTML = "";
+	        
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
+function call_del_img(url,tab) {
+	var http = new XMLHttpRequest();
+	var params = form_param(tab);
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //return(http.responseText);
+	        console.log(http.responseText)
+	        document.location.href = "http://localhost:8080/index.php"
+	        
 	    }
 	}
 	http.send(params);
@@ -336,7 +381,7 @@ function call_users(tab, url) {
 	        tab['login'] = name_user;
 	        call_user(tab, "http://localhost:8080/back/aff_user.php");
 
-	        //document.getElementsByClassName('corpus')[0].innerHTML = "";
+	        
 	    }
 	}
 	http.send(params);
@@ -357,7 +402,7 @@ function call_check_mail(url, tab) {
 	        var img = http.responseText;
 	       	user[0].mail == "1" ? user[0].mail = "0" : user[0].mail = "1";
 
-	        //document.getElementsByClassName('corpus')[0].innerHTML = "";
+	        
 	    }
 	}
 	http.send(params);
@@ -395,7 +440,7 @@ function call_user(tab, url) {
 	        	})
 	        }
 	        
-	        //document.getElementsByClassName('corpus')[0].innerHTML = "";
+	        
 	    }
 	}
 	http.send(params);
@@ -501,10 +546,145 @@ function call_btn_uplod_img(url, tab) {
 	return(http.responseText);
 }
 
+function call_btn_reset_img(url, tab) {
+	var http = new XMLHttpRequest();
+	var params = form_param(tab);
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //return(http.responseText);
+	        console.log(http.responseText)
+	        document.location.href = "http://localhost:8080/index.php"
+	       //var img = JSON.parse(http.responseText);
+	        
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
+function call_logout(url, tab) {
+	var http = new XMLHttpRequest();
+	var params = form_param(tab);
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //return(http.responseText);
+	        console.log(http.responseText)
+	        document.location.href = "http://localhost:8080/index.php"
+	       //var img = JSON.parse(http.responseText);
+	        
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
+function call_creat_account(url, tab) {
+	var http = new XMLHttpRequest();
+	var params = form_param(tab);
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //return(http.responseText);
+	        console.log(http.responseText)
+	        document.location.href = "http://localhost:8080/index.php"
+	       //var img = JSON.parse(http.responseText);
+	        
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
+function call_login(url, tab) {
+	var http = new XMLHttpRequest();
+	var params = form_param(tab);
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //return(http.responseText);
+	        console.log(http.responseText)
+	       var img = JSON.parse(http.responseText);
+	       if(img['msg'] != "error")
+	       	document.location.href = "http://localhost:8080/index.php"
+	        
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
+function get_logged(url, tab) {
+	var http = new XMLHttpRequest();
+	var params = form_param(tab);
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //return(http.responseText);
+	        console.log(http.responseText)
+
+			var file     = document.location.href.substring(document.location.href.lastIndexOf( "/" )+1 );
+
+	        if(http.responseText == "")
+	        {
+	        	if(document.getElementsByClassName('content')[0])
+	        	document.getElementsByClassName('content')[0].innerHTML = "<div class=connection>\n<a href='http://localhost:8080/html/login.php'>login</a>\n</div>\n<div class='creat'>\n<a href='http://localhost:8080/html/creat.php'>creat acount</a>\n</div>\n";
+	        	if(file == "montage.php"|| file == "param.php")
+	        		document.location.href = "http://localhost:8080/index.php"
+	        }
+	        else
+	        {
+	        	if(document.getElementsByClassName('content')[0])
+	        	document.getElementsByClassName('content')[0].innerHTML = "<div class=connection>\n<a href='http://localhost:8080/html/montage.php'>montage</a>\n</div>\n<div class='creat'>\n<a class=logout>logout</a>\n</div>\n";
+	        	if(file == "creat.php"|| file == "login.php")
+	        		document.location.href = "http://localhost:8080/index.php"
+	        }
+
+	        if(document.getElementsByClassName('logout')[0])
+			document.getElementsByClassName('logout')[0].addEventListener("click", function( event ) {
+				var tab = [];
+				console.log("ok")
+				call_logout("http://localhost:8080/html/logout.php", tab);
+			})
+	       //var img = JSON.parse(http.responseText);
+	        
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
 var img_select = 0;
 
 
 setTimeout(function() {
+
+
+
+	
+
+
 	if(document.getElementsByClassName('param-btn-mdp')[0])
 		document.getElementsByClassName('param-btn-mdp')[0].addEventListener("click", function( event ) {
 			var tab = [];
@@ -535,26 +715,103 @@ setTimeout(function() {
 			call_btn_uplod_img("http://localhost:8080/back/upload_img.php", tab)
 		})
 
+	if(document.getElementsByClassName('btn_reset_mdp')[0])
+		document.getElementsByClassName('btn_reset_mdp')[0].addEventListener("click", function( event ) {
+			var tab = [];
+			tab['login'] = document.getElementsByClassName('in_reset_mdp')[0].value
+			//tab = new FormData("img1", document.getElementsByClassName('file_uplod')[0].files)
+			call_btn_reset_img("http://localhost:8080/back/reset_mdp.php", tab)
+		})
+
 	if(document.getElementsByClassName('img1')[0])
 		document.getElementsByClassName('img1')[0].addEventListener("click", function( event ) {
 			document.getElementsByClassName('img2')[0].checked = false;
 			document.getElementsByClassName('img3')[0].checked = false;
-			img_select = 1;
+			img_select == 1 ? img_select = 0:img_select = 1;
+			if(img_select == 1)
+			{
+				document.getElementById("img_1").className = "display_block"
+				document.getElementById("img_2").className = "display_none"
+				document.getElementById("img_3").className = "display_none"
+				document.getElementById("startbutton").disabled = false;
+				document.getElementsByClassName('btn_uplod_img')[0].disabled = false;
+			}
+			else
+			{
+				document.getElementById("img_1").className = "display_none"
+				document.getElementById("img_2").className = "display_none"
+				document.getElementById("img_3").className = "display_none"
+				document.getElementById("startbutton").disabled = true;
+				document.getElementsByClassName('btn_uplod_img')[0].disabled = true;
+			}
 		})
 
 	if(document.getElementsByClassName('img2')[0])
 		document.getElementsByClassName('img2')[0].addEventListener("click", function( event ) {
 			document.getElementsByClassName('img1')[0].checked = false;
 			document.getElementsByClassName('img3')[0].checked = false;
-			img_select = 2;
+			img_select == 2 ? img_select = 0:img_select = 2;
+			if(img_select == 2)
+			{
+				document.getElementById("img_2").className = "display_block"
+				document.getElementById("img_1").className = "display_none"
+				document.getElementById("img_3").className = "display_none"
+				document.getElementById("startbutton").disabled = false;
+				document.getElementsByClassName('btn_uplod_img')[0].disabled = false;
+			}
+			else
+			{
+				document.getElementById("img_1").className = "display_none"
+				document.getElementById("img_2").className = "display_none"
+				document.getElementById("img_3").className = "display_none"
+				document.getElementById("startbutton").disabled = true;
+				document.getElementsByClassName('btn_uplod_img')[0].disabled = true;
+			}
 		})
 
 	if(document.getElementsByClassName('img3')[0])
 		document.getElementsByClassName('img3')[0].addEventListener("click", function( event ) {
 			document.getElementsByClassName('img1')[0].checked = false;
 			document.getElementsByClassName('img2')[0].checked = false;
-			img_select = 3;
+			img_select == 3 ? img_select = 0:img_select = 3;
+			if(img_select == 3)
+			{
+				document.getElementById("img_3").className = "display_block"
+				document.getElementById("img_2").className = "display_none"
+				document.getElementById("img_1").className = "display_none"
+				document.getElementById("startbutton").disabled = false;
+				document.getElementsByClassName('btn_uplod_img')[0].disabled = false;
+			}
+			else
+			{
+				document.getElementById("img_1").className = "display_none"
+				document.getElementById("img_2").className = "display_none"
+				document.getElementById("img_3").className = "display_none"
+				document.getElementById("startbutton").disabled = true;
+				document.getElementsByClassName('btn_uplod_img')[0].disabled = true;
+			}
 		})
+
+	if(document.getElementsByClassName('creat_account_btn')[0])
+		document.getElementsByClassName('creat_account_btn')[0].addEventListener("click", function( event ) {
+			var tab = [];
+			console.log('test')
+			tab['login'] = document.getElementsByClassName('creat_account_id')[0].value;
+			tab['passwd'] = document.getElementsByClassName('creat_account_mdp')[0].value;
+			tab['email'] = document.getElementsByClassName('creat_account_mail')[0].value;
+			call_creat_account("http://localhost:8080/back/verif_add_user.php", tab);
+		})
+
+
+	if(document.getElementsByClassName('btn_log')[0])
+		document.getElementsByClassName('btn_log')[0].addEventListener("click", function( event ) {
+			var tab = [];
+			tab['login'] = document.getElementsByClassName('in_id_log')[0].value;
+			tab['passwd'] = document.getElementsByClassName('in_mdp_log')[0].value;
+			call_login("http://localhost:8080/back/log.php", tab);
+		})
+
+	get_logged("http://localhost:8080/back/get_logged.php",[]);
 
 	if(document.getElementById('video'))
 	{
@@ -562,7 +819,6 @@ setTimeout(function() {
 	}
 
 },100);
-
 
 function video() {
 

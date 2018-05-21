@@ -2,8 +2,13 @@
 	//session_start();
 	include('template.php');
 	
-	
-
+	if((empty($_POST['id']) && $_POST['id'] != 0) || empty($_POST['str']))
+	{
+		$msg = "param null";
+		$data = [];
+		reponse_json($success, $data, $msg);
+		return;
+	}
 	//======================================
 	$requete = $pdo->prepare("SELECT * FROM `user`");
 	if( $requete->execute() ){
@@ -41,10 +46,8 @@
 		$msg = "Une erreur s'est produite";
 	}
 	//====================================================================
-
+	$valid = "0";
 	foreach ($users as $key => $value) {
-		
-
 		if($value['id'] == $img['creat_by'])
 		{
 			$mail = $value['email'];

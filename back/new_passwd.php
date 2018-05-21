@@ -1,6 +1,14 @@
 <?php
-	session_start();
 	include('template.php');
+
+	if(empty($_SESSION['logged_on_user']) || empty($_POST['passwd']))
+	{
+		$msg = "param null";
+		$data = [];
+		reponse_json($success, $data, $msg);
+		return;
+	}
+	
 	$requete = $pdo->prepare("SELECT * FROM `user` WHERE `login` LIKE '".$_SESSION['logged_on_user']."'");
 	$requete->bindParam(':nom', $_SESSION['logged_on_user']);
 

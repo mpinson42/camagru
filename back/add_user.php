@@ -1,6 +1,13 @@
 <?php
-session_start();
 include('template.php');
+
+if(empty($_SESSION['token']) || empty($_GET['token']) || empty($_SESSION['passwd']))
+	{
+		$msg = "param null";
+		$data = [];
+		reponse_json($success, $data, $msg);
+		return;
+	}
 
 if(empty($_SESSION['token']) || empty($_GET['token']) ||  $_GET['token'] != $_SESSION['token'])
 {

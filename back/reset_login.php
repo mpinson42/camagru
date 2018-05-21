@@ -1,6 +1,13 @@
 <?php
-	session_start();
 	include('template.php');
+
+	if(empty($_POST['login']) || empty($_SESSION['logged_on_user']))
+	{
+		$msg = "param null";
+		$data = [];
+		reponse_json($success, $data, $msg);
+		return;
+	}
 
 	$requete = $pdo->prepare("UPDATE user SET login='".$_POST['login']."' WHERE login='".$_SESSION['logged_on_user']."'");
 	$_SESSION['logged_on_user'] = $_POST['login'];
