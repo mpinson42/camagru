@@ -24,7 +24,6 @@
 		$success = true;
 		$data['nombre'] = count($resultats);
 		$creat_by = $resultats[0]['id'];
-		print_r ($resultats[0]['id']);
 	} else {
 		$msg = "Une erreur s'est produite";
 	}
@@ -119,16 +118,21 @@ $data = base64_decode($img);
 	{
 		$token = merge_img("../img/" . $token . ".png", "../img/pizza.png");
 	}
-	
+	//echo $_POST['gif'];
+	if($_POST['gif'] == 1)
+	{
+		echo $token .".png";
+		return;
+	}
 	$requete = $pdo->prepare("INSERT INTO `img` (`path`, `id`, `likedby`, `commentby`, `creat_by`) VALUES ('".$token.".png', '".$id."', '[]', '{\"comments\":[]}', '".$creat_by."');");
 	
 
 	if( $requete->execute() ){
 		$success = true;
-		echo $msg = 'user added';
+		$msg = 'user added';
 	} else {
 
-		echo $msg = "user fail to added";
+		$msg = "user fail to added";
 	}
 
 

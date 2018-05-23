@@ -13,7 +13,11 @@
 <body>
 	<div class="top_param">
 		<a href="http://localhost:8080/index.php"><h1>magixisland.com</h1></a>
+		<div class="content">
 
+			
+		
+		</div>
 		<div class=contenu_param>
 			
 			

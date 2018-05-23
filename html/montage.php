@@ -1,6 +1,3 @@
-<?php
-?>
-
 <!DOCTYPE html>
 <html class="html">
 <head>
@@ -40,13 +37,19 @@
 						<img src="http://localhost:8080/img/coeur.png" class="display_none" id="img_2">
 						<img src="http://localhost:8080/img/Pizza.png" class="display_none" id="img_3">
 					</div>
-					<video id="video"></video>
+					<video id="video" autoplay=""></video>
 					<button id="startbutton" disabled>Prendre une photo</button>
 					
 							<input name="img1"  type="file">
 							<input value="upload"  type="submit" class="btn_uplod_img" disabled>
-					
+							gif:<input class="check_gif" type="checkbox">
 					<canvas id="canvas"></canvas>
+					
+				</div>
+				<div style="height: 240px">
+					
+				</div>
+				<div class="img-lasted">
 					
 				</div>
 				</form>
@@ -63,5 +66,8 @@
 
 		  fin de remplissage-->
 	</div>
+	<footer>footer</footer>
 </body>
 </html>
+
+

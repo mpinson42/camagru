@@ -12,6 +12,9 @@ var name_user;
 var full_user;
 var user;
 var comment_by;
+var gif = 0;
+var count_gif = 0;
+var tab_gif = [];
 
 function escapeHtml(text) {
   var map = {
@@ -199,6 +202,28 @@ function call_like(url, tab)
 	return(http.responseText);
 }
 
+function call_mont_gif(url, tab) {
+	var http = new XMLHttpRequest();
+	var params = tab;
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //return(http.responseText);
+	        console.log("ok")
+	        console.log(http.responseText);
+	       	
+
+	        
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
 function call_save_img(url, tab)
 {
 	var http = new XMLHttpRequest();
@@ -212,7 +237,18 @@ function call_save_img(url, tab)
 	    if(http.readyState == 4 && http.status == 200) {
 	        //return(http.responseText);
 	        //var rep = JSON.parse(http.responseText);
-	        console.log(http.responseText)
+	        if(gif == 1)
+		    {
+		    	count_gif++;
+		    	tab_gif.push(http.responseText);
+		    	if(count_gif == 5)
+		    	{
+		    		var str = "img1=" + tab_gif[0] + "&" + "img2=" + tab_gif[1] + "&" + "img3=" + tab_gif[2] + "&" + "img4=" + tab_gif[3] + "&" + "img5=" + tab_gif[4]
+		    		call_mont_gif('http://localhost:8080/back/mont_gif.php', str);
+		    		tab_gif = [];
+		    		count_gif = 0;
+		    	}
+		    }
 	       
 	    }
 	}
@@ -485,7 +521,7 @@ function call_newpass(url, tab) {
 
 	http.onreadystatechange = function() {//Call a function when the state changes.
 	    if(http.readyState == 4 && http.status == 200) {
-	        var img = JSON.parse(http.responseText);
+	        //var img = JSON.parse(http.responseText);
 	        
 	    }
 
@@ -524,7 +560,7 @@ function call_newlogin(url, tab) {
 	http.onreadystatechange = function() {//Call a function when the state changes.
 	    if(http.readyState == 4 && http.status == 200) {
 	        //return(http.responseText);
-	       var img = JSON.parse(http.responseText);
+	       //var img = JSON.parse(http.responseText);
 	        
 	    }
 	}
@@ -638,6 +674,37 @@ function call_login(url, tab) {
 	return(http.responseText);
 }
 
+function call_img_lasted(url, tab) {
+	var http = new XMLHttpRequest();
+	var params = form_param(tab);
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //return(http.responseText);
+	        console.log(http.responseText);
+	        var img = JSON.parse(http.responseText);
+
+	        var i = 0;
+	        var html = "";
+	        while (i < 5)
+	        {
+	        	if(img['result'][i])
+	        	html += "<img height=240px src='http://localhost:8080/img/" + img['result'][i]['path'] + "'>"
+	        	i++;
+	        }
+
+	        document.getElementsByClassName('img-lasted')[0].innerHTML = html;
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
+
 function get_logged(url, tab) {
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
@@ -663,7 +730,7 @@ function get_logged(url, tab) {
 	        else
 	        {
 	        	if(document.getElementsByClassName('content')[0])
-	        	document.getElementsByClassName('content')[0].innerHTML = "<div class=connection>\n<a href='http://localhost:8080/html/montage.php'>montage</a>\n</div>\n<div class='creat'>\n<a class=logout>logout</a>\n</div>\n";
+	        	document.getElementsByClassName('content')[0].innerHTML = "<div class=btn_param>\n<a href='http://localhost:8080/html/param.php'>param</a>\n</div>       <div class=connection>\n<a href='http://localhost:8080/html/montage.php'>montage</a>\n</div>\n<div class='creat'>\n<a class=logout>logout</a>\n</div>\n";
 	        	if(file == "creat.php"|| file == "login.php")
 	        		document.location.href = "http://localhost:8080/index.php"
 	        }
@@ -818,6 +885,18 @@ setTimeout(function() {
 			call_login("http://localhost:8080/back/log.php", tab);
 		})
 
+	if(document.getElementsByClassName('check_gif')[0])
+		document.getElementsByClassName('check_gif')[0].addEventListener("click", function( event ) {
+
+			gif == 1 ? gif = 0 : gif = 1;
+		})
+
+	if(document.getElementsByClassName('img-lasted')[0])
+		{
+			tab = [];
+			call_img_lasted("http://localhost:8080/back/img_lasted.php", tab);
+		}
+
 	get_logged("http://localhost:8080/back/get_logged.php",[]);
 
 	if(document.getElementById('video'))
@@ -855,7 +934,6 @@ function video() {
         var vendorURL = window.URL || window.webkitURL;
         video.src = vendorURL.createObjectURL(stream);
       }
-      video.play();
     },
     function(err) {
       console.log("An error occured! " + err);
@@ -883,6 +961,8 @@ function video() {
     var tab = [];
     tab['img1'] = data;
     tab['checkbox'] = img_select;
+    tab['gif'] = gif;
+    console.log(gif)
     call_save_img("http://localhost:8080/back/save_img.php", tab);
   }
 
