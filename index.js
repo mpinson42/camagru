@@ -903,6 +903,9 @@ setTimeout(function() {
 	{
 		video();
 	}
+	document.getElementsByClassName('img2')[0].checked = false;
+	document.getElementsByClassName('img3')[0].checked = false;
+	document.getElementsByClassName('img1')[0].checked = false;
 
 },100);
 
@@ -917,28 +920,26 @@ function video() {
       width = 500,
       height = 0;
 
-  navigator.getMedia = ( navigator.getUserMedia ||
+  navigator.getUserMedia = navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
-                         navigator.mozGetUserMedia ||
-                         navigator.msGetUserMedia);
+                         navigator.mozGetUserMedia;
 
-  navigator.getMedia(
-    {
-      video: true,
-      audio: false
-    },
-    function(stream) {
-      if (navigator.mozGetUserMedia) {
-        video.mozSrcObject = stream;
-      } else {
-        var vendorURL = window.URL || window.webkitURL;
-        video.src = vendorURL.createObjectURL(stream);
+if (navigator.getUserMedia) {
+   navigator.getUserMedia({ audio: false, video: { width: 500, height: 375 } },
+      function(stream) {
+         var video = document.querySelector('#video');
+         video.src = window.URL.createObjectURL(stream);
+         video.onloadedmetadata = function(e) {
+           video.play();
+         };
+      },
+      function(err) {
+         console.log("The following error occurred: " + err.name);
       }
-    },
-    function(err) {
-      console.log("An error occured! " + err);
-    }
-  );
+   );
+} else {
+   console.log("getUserMedia not supported");
+}
 
   video.addEventListener('canplay', function(ev){
     if (!streaming) {
@@ -957,12 +958,11 @@ function video() {
     canvas.getContext('2d').drawImage(video, 0, 0, width, height);
     var data = canvas.toDataURL('image/png');
     //photo.setAttribute('src', data);
-
+    console.log(data)
     var tab = [];
     tab['img1'] = data;
     tab['checkbox'] = img_select;
     tab['gif'] = gif;
-    console.log(gif)
     call_save_img("http://localhost:8080/back/save_img.php", tab);
   }
 
@@ -970,4 +970,73 @@ function video() {
       takepicture();
     ev.preventDefault();
   }, false);
+}
+
+function call_add_g_acount(url, tab) {
+	
+	var http = new XMLHttpRequest();
+	var params = form_param(tab);
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //return(http.responseText);
+	        //var rep = JSON.parse(http.responseText);
+	        console.log(http.responseText)
+	        document.location.href="http://localhost:8080/html/montage.php";
+	       
+	    }
+	}
+	http.send(params);
+	return(http.responseText);
+}
+
+function GoogleOnSuccess(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    gapi.client.load('plus', 'v1', function () {
+        var request = gapi.client.plus.people.get({
+            'userId': 'me'
+        });
+        //Display the user details
+
+        //resp.name.givenName == name
+        //resp.displayName == nom prenon
+        //resp.emails[0].value == email
+        //resp.gender == genre
+        //resp.id == id
+        //resp.url == g+ url
+        //resp.image.url == img url
+        request.execute(function (resp) {
+        	console.log(resp)
+        	var tab = [];
+        	tab['email'] = resp.emails[0].value;
+        	tab['full_name'] = resp.displayName;
+        	tab['id_g'] = resp.id;
+            call_add_g_acount("http://localhost:8080/back/add_g_acount.php",tab)
+        });
+    });
+}
+function GoogleOnFailure(error) {
+    console.error(error);
+}
+function GoogleRenderButton() {
+    gapi.signin2.render('gSignIn', {
+        'scope': 'profile email',
+        'width': 50,
+        'height': 50,
+        'longtitle': false,
+        'theme': 'dark',
+        'onsuccess': GoogleOnSuccess,
+        'onfailure': GoogleOnFailure
+    });
+}
+function GooleSignOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        $('.userContent').html('');
+        $('#gSignIn').slideDown('slow');
+    });
 }

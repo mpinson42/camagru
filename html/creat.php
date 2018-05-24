@@ -6,6 +6,7 @@
   	<meta name="keywords" content="HTML,CSS,php">
   	<meta name="author" content="mpinson">
 	<link rel="stylesheet" type="text/css" href="style.css">
+	
 	<script type="text/javascript" src="../index.js"></script>
 	<title>magixisland.com</title>
 </head>

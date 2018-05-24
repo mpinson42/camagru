@@ -7,6 +7,8 @@
   	<meta name="author" content="mpinson">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script type="text/javascript" src="../index.js"></script>
+	<meta name="google-signin-client_id" content="716136405353-3lcoqcmqt36c2mjui4f0uannob9oosos.apps.googleusercontent.com">
+  	<script src="https://apis.google.com/js/client:platform.js?onload=GoogleRenderButton" async defer></script>
 	<title>magixisland.com</title>
 </head>
 <body>
@@ -23,8 +25,12 @@
 			login pour reset mdp: <input class="in_reset_mdp" type="password" name="login">
 			<input type="button" class="btn_reset_mdp" name="submit" value="OK">
 		</form>
-
-			
+		<div style="position: relative;">
+			<div id="gSignIn" style="margin-left: 20%;"></div>
+			<a href="http://localhost:8080/back/facebook.php">
+				<img src="http://localhost:8080/img/facebook.png" style="width: 50px; height: 50px; position: absolute; top: 0; right: 20%">
+			</a>
+		</div>
 		</div>
 	</div>
 </body>

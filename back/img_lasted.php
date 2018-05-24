@@ -12,6 +12,8 @@ if( $requete->execute() ){
 	$data['nombre'] = count($resultats);
 //	print_r ($resultats[0]);
 //	return;
+	if(!$resultats[0])
+		exit();
 	$data = $resultats[0];
 
 

@@ -22,7 +22,7 @@
 	<div class="content_montage">
 		
 			<div class=corpus2>
-				<form method="post" action="../back/upload_img.php" enctype="multipart/form-data">
+				<div  enctype="multipart/form-data">
 					<div class="img_select">
 						<img src="http://localhost:8080/img/cadre.png">
 						<input type="checkbox" class="img[] img1" value="1" name="checkbox">
@@ -41,7 +41,7 @@
 					<button id="startbutton" disabled>Prendre une photo</button>
 					
 							<input name="img1"  type="file">
-							<input value="upload"  type="submit" class="btn_uplod_img" disabled>
+							<input value="upload"  type="button" class="btn_uplod_img" disabled>
 							gif:<input class="check_gif" type="checkbox">
 					<canvas id="canvas"></canvas>
 					
@@ -52,7 +52,7 @@
 				<div class="img-lasted">
 					
 				</div>
-				</form>
+				</div>
 			</div>
 
 

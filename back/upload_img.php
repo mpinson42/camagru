@@ -39,7 +39,6 @@
 		$success = true;
 		$data['nombre'] = count($resultats);
 		$creat_by = $resultats[0]['id'];
-		print_r ($resultats[0]['id']);
 	} else {
 		$msg = "Une erreur s'est produite";
 	}
@@ -69,7 +68,7 @@
 
 
 
-	print_r ($_FILES['img1']);
+	
 
 	
 
