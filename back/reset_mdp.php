@@ -18,8 +18,6 @@
 
 	if( $requete->execute() ){
 		$resultats = $requete->fetchAll();
-		//var_dump($resultats);
-		
 		$success = true;
 		$data['nombre'] = count($resultats);
 		if(empty($resultats[0]))
@@ -45,8 +43,6 @@
 	$requete = $pdo->prepare("UPDATE user SET passwd='".$passwd."' WHERE login='".$_POST['login']."'");
 	if( $requete->execute() ){
 		$resultats = $requete->fetchAll();
-		//var_dump($resultats);
-		
 		$success = true;
 		$data['nombre'] = count($resultats);
 		$data['user'] = $resultats;

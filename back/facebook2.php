@@ -14,7 +14,7 @@ if(!session_id()) {
     session_start();
 }
 $fb = new Facebook\Facebook([
-  'app_id' => '958105207701084', // Replace {app-id} with your app id
+  'app_id' => '958105207701084',
   'app_secret' => 'cbf2f50ebe27e71fc4ec50383e4b3477',
   'default_graph_version' => 'v2.2',
   ]);
@@ -22,11 +22,9 @@ $helper = $fb->getRedirectLoginHelper();
 try {
   $accessToken = $helper->getAccessToken();
 } catch(Facebook\Exceptions\FacebookResponseException $e) {
-  // When Graph returns an error
   echo 'Graph returned an error: ' . $e->getMessage();
   exit;
 } catch(Facebook\Exceptions\FacebookSDKException $e) {
-  // When validation fails or other local issues
   echo 'Facebook SDK returned an error: ' . $e->getMessage();
   exit;
 }
@@ -43,14 +41,10 @@ if (! isset($accessToken)) {
   }
   exit;
 }
-// Logged in
 $token = $accessToken->getValue();
-// The OAuth 2.0 client handler helps us manage access tokens
 $oAuth2Client = $fb->getOAuth2Client();
-// Get the access token metadata from /debug_token
 $tokenMetadata = $oAuth2Client->debugToken($accessToken);
 if (! $accessToken->isLongLived()) {
-  // Exchanges a short-lived access token for a long-lived one
   try {
     $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
   } catch (Facebook\Exceptions\FacebookSDKException $e) {
@@ -58,7 +52,6 @@ if (! $accessToken->isLongLived()) {
   }
 }
   try {
-  // Returns a `FacebookFacebookResponse` object
   $response = $fb->get(
     '/'.$tokenMetadata->getUserId().'?fields=email,name',
     $accessToken->getValue()
@@ -72,7 +65,6 @@ $graphNode = $response->getGraphNode();;
   $requete = $pdo->prepare("SELECT * FROM `user`");
 if( $requete->execute() ){
   $resultats = $requete->fetchAll();
-  //var_dump($resultats);
   
   $success = true;
   $data['nombre'] = count($resultats);

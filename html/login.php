@@ -9,11 +9,11 @@
 	<script type="text/javascript" src="../index.js"></script>
 	<meta name="google-signin-client_id" content="716136405353-3lcoqcmqt36c2mjui4f0uannob9oosos.apps.googleusercontent.com">
   	<script src="https://apis.google.com/js/client:platform.js?onload=GoogleRenderButton" async defer></script>
-	<title>magixisland.com</title>
+	<title>Camagru.com</title>
 </head>
 <body>
 	<div class="top">
-		<a href="http://localhost:8080/index.php"><h1>magixisland.com</h1></a>
+		<a href="http://localhost:8080/index.php"><h1>Camagru.com</h1></a>
 
 		<form method="POST" action="../back/log.php">
 			Identifiant: <input type="text" name="login" class="in_id_log">

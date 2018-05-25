@@ -1,5 +1,4 @@
 <?php
-	//session_start();
 	include('template.php');
 	
 	if((empty($_POST['id']) && $_POST['id'] != 0) || empty($_POST['str']))
@@ -13,10 +12,7 @@
 	$requete = $pdo->prepare("SELECT * FROM `user`");
 	if( $requete->execute() ){
 		$resultats = $requete->fetchAll();
-		//var_dump($resultats);
-		
 		$success = true;
-		//$data['nombre'] = count($resultats);
 		$users = $resultats;
 	} else {
 		$msg = "Une erreur s'est produite";
@@ -53,7 +49,6 @@
 			$mail = $value['email'];
 			$valid = $value['mail'];
 			$poster = $user['login'];
-			
 		}
 	}
 
@@ -63,8 +58,6 @@
 	$requete = $pdo->prepare("UPDATE img SET commentby='".$_POST['str']."' WHERE id='".$_POST['id']."'");
 	if( $requete->execute() ){
 		$resultats = $requete->fetchAll();
-		//var_dump($resultats);
-		
 		$success = true;
 		$data['nombre'] = count($resultats);
 		$msg = "succses";

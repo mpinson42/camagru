@@ -6,12 +6,9 @@ include('template.php');
 
 if( $requete->execute() ){
 	$resultats = $requete->fetchAll();
-	//var_dump($resultats);
 	
 	$success = true;
 	$data['nombre'] = count($resultats);
-//	print_r ($resultats[0]);
-//	return;
 	if(!$resultats[0])
 		exit();
 	$data = $resultats[0];

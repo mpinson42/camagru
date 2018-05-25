@@ -24,3 +24,5 @@ $requete->execute();
 
 $requete = $pdo->prepare("CREATE TABLE `api`.`img` ( `path` TEXT NOT NULL , `id` TEXT NOT NULL , `likedby` TEXT NOT NULL , `commentby` TEXT NOT NULL , `creat_by` TEXT NOT NULL ) ENGINE = InnoDB;");
 $requete->execute();
+
+$_SESSION['logged_on_user'] = "";

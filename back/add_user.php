@@ -15,9 +15,6 @@ if(empty($_SESSION['token']) || empty($_GET['token']) ||  $_GET['token'] != $_SE
 	echo $_SESSION['token'] . " ";
 	exit();
 }
-
-//$id = get_last_id_user();
-
 if( !empty($_SESSION['login']) && !empty($_SESSION['passwd']) && !empty($_SESSION['email'])) {
 	//Si toutes les données sont saisie par le client
 	$passwd = hash('whirlpool', $_SESSION['passwd']);

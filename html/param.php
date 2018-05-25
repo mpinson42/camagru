@@ -8,11 +8,11 @@
   	<meta name="keywords" content="HTML,CSS,php">
   	<meta name="author" content="mpinson">
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<title>magixisland.com</title>
+	<title>Camagru.com</title>
 </head>
 <body>
 	<div class="top_param">
-		<a href="http://localhost:8080/index.php"><h1>magixisland.com</h1></a>
+		<a href="http://localhost:8080/index.php"><h1>Camagru.com</h1></a>
 		<div class="content">
 
 			

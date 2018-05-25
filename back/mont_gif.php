@@ -49,8 +49,6 @@
 
 	if( $requete->execute() ){
 		$resultats = $requete->fetchAll();
-		//var_dump($resultats);
-		
 		$success = true;
 		$data['nombre'] = count($resultats);
 		$creat_by = $resultats[0]['id'];
@@ -62,8 +60,6 @@
 	$requete = $pdo->prepare("SELECT * FROM `img`");
 	if( $requete->execute() ){
 		$resultats = $requete->fetchAll();
-		//var_dump($resultats);
-		
 		$success = true;
 		$data['nombre'] = count($resultats);
 		$data['user'] = $resultats;

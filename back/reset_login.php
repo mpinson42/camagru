@@ -13,8 +13,6 @@
 	$_SESSION['logged_on_user'] = $_POST['login'];
 	if( $requete->execute() ){
 		$resultats = $requete->fetchAll();
-		//var_dump($resultats);
-		
 		$success = true;
 		$data['nombre'] = count($resultats);
 		$data['user'] = $resultats;

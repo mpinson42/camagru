@@ -66,7 +66,6 @@ function bind_article() {
 				for (var i = 0; i < liked_by.length; i++) {
 					if(liked_by[i] == user[0].id)
 					{
-						//console.log(user[0].id);
 						is_enter = 1;
 						index = i
 					}
@@ -83,7 +82,6 @@ function bind_article() {
 				}
 				if(user[0].id == img['creat_by'])
 				{
-					console.log('ok')
 					html+="delete : <input type='button' name='' class='del_img'>"
 				}
 
@@ -108,11 +106,6 @@ function bind_article() {
 					<input type="text" name="" class="input-comment">
 					<input type="button" name="" class="input-button">
 				</form>`
-			/*<div class=comment>
-					<h4>comment by : yunikki</h4>
-					<p>oui</p>
-					<hr>
-				</div>*/
 			document.getElementsByClassName('corpus')[0].innerHTML = html;
 
 			if(document.getElementsByClassName('del_img')[0])
@@ -149,13 +142,10 @@ function bind_article() {
 					for (var i = 0; i < liked_by.length; i++) {
 						if(liked_by[i] == user[0].id)
 						{
-							//console.log(user[0].id);
 							is_enter = 1;
 							index = i
 						}
 					}
-
-						console.log('ok')
 						if(like == 1)
 						{
 							delete liked_by[index];
@@ -165,8 +155,6 @@ function bind_article() {
 						{
 							liked_by.push(user[0].id);
 						}
-						console.log(liked_by);
-
 						var tab = [];
 						tab['id'] = img.id
 						tab['str'] = JSON.stringify(liked_by)
@@ -186,16 +174,9 @@ function call_like(url, tab)
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
-	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        //var rep = JSON.parse(http.responseText);
-	        console.log(http.responseText)
-	       
+	http.onreadystatechange = function() {
+	    if(http.readyState == 4 && http.status == 200) {  
 	    }
 	}
 	http.send(params);
@@ -206,18 +187,9 @@ function call_mont_gif(url, tab) {
 	var http = new XMLHttpRequest();
 	var params = tab;
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        console.log("ok")
-	        console.log(http.responseText);
-	       	
-
-	        
 	    }
 	}
 	http.send(params);
@@ -229,14 +201,9 @@ function call_save_img(url, tab)
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        //var rep = JSON.parse(http.responseText);
 	        if(gif == 1)
 		    {
 		    	count_gif++;
@@ -261,45 +228,29 @@ function call_add_comment(url, tab, login, comment) {
 	var params = form_param(tab);
 	http.open("POST", url, true);
 	comment = escapeHtml(comment);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        console.log(http.responseText);
-	        
 	        var rep = JSON.parse(http.responseText);
 	        document.location.href = "http://localhost:8080/index.php"
 	        document.getElementsByClassName('form-comment')[0].remove();
-
-	        
-
-	      
-
 	        var html = ""
 			
 				html += `<div class=comment>
 				<h4>comment by : `+login+`</h4>
 				<p>`+comment+`</p>
 				<hr></div>`
-			
-
 			if(name_user)
 			html += `<form class="form-comment">
 					<input type="text" name="" class="input-comment">
 					<input type="button" name="" class="input-button">
 				</form>`
-
 				document.getElementsByClassName('corpus')[0].innerHTML += html;
-
-
 			if(document.getElementsByClassName('input-button')[0])
 			document.getElementsByClassName('input-button')[0].addEventListener("click", function( event ) {
 				var tab = {};
 				tab['login'] = name_user;
 				tab['commante'] = escapeHtml(document.getElementsByClassName('input-comment')[0].value)
-
 				comment_by['comments'].push(tab);
 				str = JSON.stringify(comment_by['comments'])
 				str = "{" + '"comments"' + ":" + str + "}"
@@ -320,13 +271,10 @@ function call_img(tab, url) {
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
+	        
 	        var img = JSON.parse(http.responseText);
 
 	        img = img.result.img;
@@ -350,7 +298,6 @@ function call_img(tab, url) {
 					if(img[i])
 					{
 						html += "<div class=article id="+img[i]['id']+"><img src='img/" + img[i]['path'] + "' id="+img[i]['id']+"><a href='#' class=article_title id="+img[i]['id']+">"+img[i]['path']+"</a><br></div>"
-
 					}
 				}
 				document.getElementsByClassName('corpus')[0].innerHTML = html;
@@ -385,16 +332,10 @@ function call_del_img(url,tab) {
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        console.log(http.responseText)
 	        document.location.href = "http://localhost:8080/index.php"
-	        
 	    }
 	}
 	http.send(params);
@@ -408,12 +349,12 @@ function call_users(tab, url) {
 	var params = form_param(tab);
 	http.open("POST", url, true);
 
-	//Send the proper header information along with the request
+	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
+	        
 	        var img = JSON.parse(http.responseText);
 	        name_user = img['loged'];
 	        img = img.result.user;
@@ -436,12 +377,12 @@ function call_check_mail(url, tab) {
 	var params = form_param(tab);
 	http.open("POST", url, true);
 
-	//Send the proper header information along with the request
+	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
+	        
 	        var img = http.responseText;
 	       	user[0].mail == "1" ? user[0].mail = "0" : user[0].mail = "1";
 
@@ -457,12 +398,12 @@ function call_user(tab, url) {
 	var params = form_param(tab);
 	http.open("POST", url, true);
 
-	//Send the proper header information along with the request
+	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
+	        
 	        var img = JSON.parse(http.responseText);
 	        name_user = img['loged'];
 	        img = img.result.user;
@@ -504,7 +445,6 @@ var elem = document.getElementsByClassName('corpus');
 
 	var img = call_img([], "http://localhost:8080/back/get_img.php");
 	var tab = [];
-	//tab['login'] = name_user; 
 	call_users(tab, "http://localhost:8080/back/aff_user.php");
 	
 
@@ -516,12 +456,11 @@ function call_newpass(url, tab) {
 	var params = form_param(tab);
 	http.open("POST", url, true);
 
-	//Send the proper header information along with the request
+	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //var img = JSON.parse(http.responseText);
 	        
 	    }
 
@@ -535,12 +474,12 @@ function call_newemail(url, tab) {
 	var params = form_param(tab);
 	http.open("POST", url, true);
 
-	//Send the proper header information along with the request
+	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
+	        
 	       var img = JSON.parse(http.responseText);
 	        
 	    }
@@ -554,13 +493,12 @@ function call_newlogin(url, tab) {
 	var params = form_param(tab);
 	http.open("POST", url, true);
 
-	//Send the proper header information along with the request
+	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	       //var img = JSON.parse(http.responseText);
+	        
 	        
 	    }
 	}
@@ -573,16 +511,9 @@ function call_btn_uplod_img(url, tab) {
 	var http = new XMLHttpRequest();
 	var params = tab;
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
-	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        console.log(http.responseText)
-	       //var img = JSON.parse(http.responseText);
-	        
+	http.onreadystatechange = function() {
+	    if(http.readyState == 4 && http.status == 200) { 
 	    }
 	}
 	http.send(params);
@@ -593,17 +524,10 @@ function call_btn_reset_img(url, tab) {
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        console.log(http.responseText)
 	        document.location.href = "http://localhost:8080/index.php"
-	       //var img = JSON.parse(http.responseText);
-	        
 	    }
 	}
 	http.send(params);
@@ -614,17 +538,10 @@ function call_logout(url, tab) {
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        console.log(http.responseText)
 	        document.location.href = "http://localhost:8080/index.php"
-	       //var img = JSON.parse(http.responseText);
-	        
 	    }
 	}
 	http.send(params);
@@ -636,16 +553,12 @@ function call_creat_account(url, tab) {
 	var params = form_param(tab);
 	http.open("POST", url, true);
 
-	//Send the proper header information along with the request
+	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        console.log(http.responseText)
 	        document.location.href = "http://localhost:8080/index.php"
-	       //var img = JSON.parse(http.responseText);
-	        
 	    }
 	}
 	http.send(params);
@@ -656,14 +569,9 @@ function call_login(url, tab) {
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        console.log(http.responseText)
 	       var img = JSON.parse(http.responseText);
 	       if(img['msg'] != "error")
 	       	document.location.href = "http://localhost:8080/index.php"
@@ -678,16 +586,10 @@ function call_img_lasted(url, tab) {
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        console.log(http.responseText);
 	        var img = JSON.parse(http.responseText);
-
 	        var i = 0;
 	        var html = "";
 	        while (i < 5)
@@ -696,7 +598,6 @@ function call_img_lasted(url, tab) {
 	        	html += "<img height=240px src='http://localhost:8080/img/" + img['result'][i]['path'] + "'>"
 	        	i++;
 	        }
-
 	        document.getElementsByClassName('img-lasted')[0].innerHTML = html;
 	    }
 	}
@@ -709,17 +610,10 @@ function get_logged(url, tab) {
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        console.log(http.responseText)
-
-			var file     = document.location.href.substring(document.location.href.lastIndexOf( "/" )+1 );
-
+			var file = document.location.href.substring(document.location.href.lastIndexOf( "/" )+1 );
 	        if(http.responseText == "")
 	        {
 	        	if(document.getElementsByClassName('content')[0])
@@ -738,27 +632,15 @@ function get_logged(url, tab) {
 	        if(document.getElementsByClassName('logout')[0])
 			document.getElementsByClassName('logout')[0].addEventListener("click", function( event ) {
 				var tab = [];
-				console.log("ok")
 				call_logout("http://localhost:8080/html/logout.php", tab);
 			})
-	       //var img = JSON.parse(http.responseText);
-	        
 	    }
 	}
 	http.send(params);
 	return(http.responseText);
 }
-
 var img_select = 0;
-
-
 setTimeout(function() {
-
-
-
-	
-
-
 	if(document.getElementsByClassName('param-btn-mdp')[0])
 		document.getElementsByClassName('param-btn-mdp')[0].addEventListener("click", function( event ) {
 			var tab = [];
@@ -782,18 +664,28 @@ setTimeout(function() {
 			call_newlogin("http://localhost:8080/back/reset_login.php", tab);
 		})
 
-	if(document.getElementsByClassName('btn_uplod')[0])
-		document.getElementsByClassName('btn_uplod')[0].addEventListener("click", function( event ) {
+
+	if(document.getElementsByClassName('file_uplod')[0])
+		document.getElementsByClassName('file_uplod')[0].addEventListener("click", function( event ) {
 			var tab = [];
-			tab = new FormData("img1", document.getElementsByClassName('file_uplod')[0].files)
-			call_btn_uplod_img("http://localhost:8080/back/upload_img.php", tab)
+			var fileInput = document.getElementsByClassName('file_uplod')[0];
+			    fileInput.addEventListener('change', function() {
+			        var reader = new FileReader();
+			        reader.addEventListener('load', function() {
+			        	tab['img1'] = reader.result;
+					    tab['checkbox'] = img_select;
+					    tab['gif'] = gif;
+					    if(img_select != 0)
+    						call_save_img("http://localhost:8080/back/save_img.php", tab);
+			        });
+			        reader.readAsDataURL(fileInput.files[0]);
+			    });
 		})
 
 	if(document.getElementsByClassName('btn_reset_mdp')[0])
 		document.getElementsByClassName('btn_reset_mdp')[0].addEventListener("click", function( event ) {
 			var tab = [];
 			tab['login'] = document.getElementsByClassName('in_reset_mdp')[0].value
-			//tab = new FormData("img1", document.getElementsByClassName('file_uplod')[0].files)
 			call_btn_reset_img("http://localhost:8080/back/reset_mdp.php", tab)
 		})
 
@@ -831,7 +723,7 @@ setTimeout(function() {
 				document.getElementById("img_1").className = "display_none"
 				document.getElementById("img_3").className = "display_none"
 				document.getElementById("startbutton").disabled = false;
-				document.getElementsByClassName('btn_uplod_img')[0].disabled = false;
+	
 			}
 			else
 			{
@@ -839,7 +731,7 @@ setTimeout(function() {
 				document.getElementById("img_2").className = "display_none"
 				document.getElementById("img_3").className = "display_none"
 				document.getElementById("startbutton").disabled = true;
-				document.getElementsByClassName('btn_uplod_img')[0].disabled = true;
+			
 			}
 		})
 
@@ -869,7 +761,6 @@ setTimeout(function() {
 	if(document.getElementsByClassName('creat_account_btn')[0])
 		document.getElementsByClassName('creat_account_btn')[0].addEventListener("click", function( event ) {
 			var tab = [];
-			console.log('test')
 			tab['login'] = document.getElementsByClassName('creat_account_id')[0].value;
 			tab['passwd'] = document.getElementsByClassName('creat_account_mdp')[0].value;
 			tab['email'] = document.getElementsByClassName('creat_account_mail')[0].value;
@@ -887,7 +778,6 @@ setTimeout(function() {
 
 	if(document.getElementsByClassName('check_gif')[0])
 		document.getElementsByClassName('check_gif')[0].addEventListener("click", function( event ) {
-
 			gif == 1 ? gif = 0 : gif = 1;
 		})
 
@@ -903,9 +793,12 @@ setTimeout(function() {
 	{
 		video();
 	}
-	document.getElementsByClassName('img2')[0].checked = false;
-	document.getElementsByClassName('img3')[0].checked = false;
-	document.getElementsByClassName('img1')[0].checked = false;
+	if(document.getElementsByClassName('img2')[0])
+	{
+		document.getElementsByClassName('img2')[0].checked = false;
+		document.getElementsByClassName('img3')[0].checked = false;
+		document.getElementsByClassName('img1')[0].checked = false;
+	}
 
 },100);
 
@@ -934,11 +827,11 @@ if (navigator.getUserMedia) {
          };
       },
       function(err) {
-         console.log("The following error occurred: " + err.name);
+        
       }
    );
 } else {
-   console.log("getUserMedia not supported");
+   
 }
 
   video.addEventListener('canplay', function(ev){
@@ -957,8 +850,6 @@ if (navigator.getUserMedia) {
     canvas.height = height;
     canvas.getContext('2d').drawImage(video, 0, 0, width, height);
     var data = canvas.toDataURL('image/png');
-    //photo.setAttribute('src', data);
-    console.log(data)
     var tab = [];
     tab['img1'] = data;
     tab['checkbox'] = img_select;
@@ -977,17 +868,10 @@ function call_add_g_acount(url, tab) {
 	var http = new XMLHttpRequest();
 	var params = form_param(tab);
 	http.open("POST", url, true);
-
-	//Send the proper header information along with the request
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
+	http.onreadystatechange = function() {
 	    if(http.readyState == 4 && http.status == 200) {
-	        //return(http.responseText);
-	        //var rep = JSON.parse(http.responseText);
-	        console.log(http.responseText)
 	        document.location.href="http://localhost:8080/html/montage.php";
-	       
 	    }
 	}
 	http.send(params);
@@ -1000,17 +884,7 @@ function GoogleOnSuccess(googleUser) {
         var request = gapi.client.plus.people.get({
             'userId': 'me'
         });
-        //Display the user details
-
-        //resp.name.givenName == name
-        //resp.displayName == nom prenon
-        //resp.emails[0].value == email
-        //resp.gender == genre
-        //resp.id == id
-        //resp.url == g+ url
-        //resp.image.url == img url
         request.execute(function (resp) {
-        	console.log(resp)
         	var tab = [];
         	tab['email'] = resp.emails[0].value;
         	tab['full_name'] = resp.displayName;

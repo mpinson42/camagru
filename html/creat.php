@@ -8,11 +8,11 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 	
 	<script type="text/javascript" src="../index.js"></script>
-	<title>magixisland.com</title>
+	<title>Camagru</title>
 </head>
 <body>
 	<div class="top">
-		<a href="http://localhost:8080/index.php"><h1>magixisland.com</h1></a>
+		<a href="http://localhost:8080/index.php"><h1>Camagru.com</h1></a>
 
 		<form>
 			Identifiant: <input type="text" class="creat_account_id">

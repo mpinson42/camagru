@@ -7,11 +7,11 @@
   	<meta name="author" content="mpinson">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script type="text/javascript" src="../index.js"></script>
-	<title>magixisland.com</title>
+	<title>Camagru.com</title>
 </head>
 <body>
 	<div class="top">
-		<a href="http://localhost:8080/index.php"><h1>magixisland.com</h1></a>
+		<a href="http://localhost:8080/index.php"><h1>Camagru.com</h1></a>
 
 		<div class="content">
 
@@ -40,8 +40,7 @@
 					<video id="video" autoplay=""></video>
 					<button id="startbutton" disabled>Prendre une photo</button>
 					
-							<input name="img1"  type="file">
-							<input value="upload"  type="button" class="btn_uplod_img" disabled>
+							<input name="img1"  type="file" class="file_uplod">
 							gif:<input class="check_gif" type="checkbox">
 					<canvas id="canvas"></canvas>
 					
@@ -54,17 +53,6 @@
 				</div>
 				</div>
 			</div>
-
-
-		<!--  a remplir en php
-
-							<div class=article>
-								<img src='" . $product['img_url'] . "'>
-								<a href='html/page_produit.php?id=".$product['name']."' class=article_title>".$product['name']."</a>
-								<br>
-							</div>
-
-		  fin de remplissage-->
 	</div>
 	<footer>footer</footer>
 </body>

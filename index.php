@@ -10,11 +10,11 @@
   	<meta name="author" content="mpinson">
 	<link rel="stylesheet" type="text/css" href="html/style.css">
 	<script type="text/javascript" src="index.js"></script>
-	<title>magixisland.com</title>
+	<title>Camagru.com</title>
 </head>
 <body>
 	<div class="top">
-		<a href="index.php"><h1>magixisland.com</h1></a>
+		<a href="index.php"><h1>Camagru.com</h1></a>
 
 		<div class="content">
 		</div>

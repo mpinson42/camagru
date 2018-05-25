@@ -8,8 +8,6 @@ include('template.php');
 
 if( $requete->execute() ){
 	$resultats = $requete->fetchAll();
-	//var_dump($resultats);
-	
 	$success = true;
 	$data['nombre'] = count($resultats);
 	$data['img'] = $resultats;
